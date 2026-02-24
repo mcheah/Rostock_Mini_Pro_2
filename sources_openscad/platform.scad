@@ -46,7 +46,7 @@ module platform()
         {
             for (a = [0:2]) rotate(a*120)        
             {
-                translate([0, -platform_hinge_offset, 0]) parallel_joints();
+                translate([0, -platform_hinge_offset, 0]) parallel_joints(0);
                 // Close little triangle holes.
                 translate([0, 31, 0]) cylinder(r=5, h=h, center=true);
             }
