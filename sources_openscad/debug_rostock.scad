@@ -21,10 +21,11 @@ for (a=[0:120:359])
 translate([0,0,200]) platform_with_hotend_mount($fn = 24);
 
 // top and bottom plate
-rotate(180) translate([-180,-127, 0])
-{
-    translate([0,0, 42 + hp/2]) linear_extrude(height = 5, center = true, convexity = 10)
-            import (file = "plate_bottom.dxf");
-    translate([0,0,500 + hp/2]) linear_extrude(height = 5, center = true, convexity = 10)
-            import (file = "plate_top.dxf");
-}
+// FreeCAD cannot import 2d shapes well, manually import this DXF to FreeCAD directly
+// rotate(180) translate([-180,-127, 0])
+// {
+//     translate([0,0, 42 + hp/2]) linear_extrude(height = 5, center = true, convexity = 10)
+//             import (file = "plate_bottom.dxf");
+//     translate([0,0,500 + hp/2]) linear_extrude(height = 5, center = true, convexity = 10)
+//             import (file = "plate_top.dxf");
+// }

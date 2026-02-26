@@ -33,7 +33,7 @@ module led_ring()
         cylinder(d=64, h=5, center=true);
     }
 }
-//translate([0,0,12]) led_ring();
+translate([0,0,50]) led_ring();
 
 
 module platform() 

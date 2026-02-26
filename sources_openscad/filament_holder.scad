@@ -18,15 +18,16 @@ hF = 18; // height of filament --> is not choosable, just as information
 
 $fn=48;
 
-include <misc_parts.scad>
+include <misc_parts_inc.scad>
+use <misc_parts.scad>
 
 module non_printable_parts() 
 {
     translate([+5,8.5, hF-8]) rotate([-90,0,0]) bearing(5,16,5);
     translate([-5, 2,15+2]) rotate([00,0,0])   bearing(5,16,5);
-    translate([0,110,hF+1]) cylinder(d=200,h=2,center=true); // filament role, bottom
+    translate([0,110,hF+1]) cylinder(d=200,h=2,center=true); // filament roll, bottom
 }
-
+non_printable_parts();
 
 module groundplate(height) 
 {
@@ -34,6 +35,7 @@ module groundplate(height)
     translate([+15,0,height/2]) cylinder(d=16,h=height,center=true);
     translate([-15,0,height/2]) cylinder(d=16,h=height,center=true); 
 }
+translate([0,250,0]) groundplate(6);
 
 module filament_holder() 
 {
@@ -65,7 +67,7 @@ module filament_holder()
     }
 }
 
-filament_holder();
+translate([0,280,0]) filament_holder();
 
 // debug: 
 //non_printable_parts();

@@ -10,23 +10,21 @@ TODO:
 
 */
 
-M3_screw_hole_dia = 3.4;
-M3_nut_hole_dia   = 6.2+0.2;
-
-M4_screw_hole_dia = 4.4;
-M4_nut_hole_dia   = 7.7+0.2;
+include <misc_parts_inc.scad>
 
 module screw_M3(length) 
 {
     cylinder(d=M3_screw_hole_dia, h=length);
 	cylinder(d=M3_nut_hole_dia, h=2.3, center=true, $fn=6);
 }
+screw_M3(10);
 
 module screw_M4(length) 
 {
     cylinder(d=M4_screw_hole_dia, h=length);
 	cylinder(d=M4_nut_hole_dia, h=3.3, center=true, $fn=6);
 }
+translate([0,10,0]) screw_M4(10);
 
 
 // Bearing - inner Diameter, outer diameter, width
@@ -38,6 +36,8 @@ module bearing(ID,OD,W)
         cylinder(d=ID, h=W+1, center=true);
     }
 }
+translate([0,30,0]) bearing(5,16,5);
+
 
 // unregular cube
 // 4 of the 12 edges are rounded
@@ -52,6 +52,7 @@ module round_cuboid(x,y,z,r,$fn=48)
     translate([-x/2+r,+y/2-r,0]) cylinder(r=r,h=z,center=true);
     translate([-x/2+r,-y/2+r,0]) cylinder(r=r,h=z,center=true);
 }   
+translate([0,50,0]) round_cuboid(x=19,y=10,z=30,r=3);
 
 // unregular cube
 // all 12 edges are rounded
@@ -76,14 +77,14 @@ module round_cuboid3(x,y,z,r,$fn=48)
     translate([0,-y/2+r,+z/2-r]) rotate([0,90,0]) cylinder(r=r,h=x-2*r,center=true);
     translate([0,-y/2+r,-z/2+r]) rotate([0,90,0]) cylinder(r=r,h=x-2*r,center=true);
     
-    translate([+(x/2-r),+(y/2-r),+(z/2-r)]) sphere(r=r,center=true);
-    translate([+(x/2-r),+(y/2-r),-(z/2-r)]) sphere(r=r,center=true);
-    translate([+(x/2-r),-(y/2-r),+(z/2-r)]) sphere(r=r,center=true);
-    translate([+(x/2-r),-(y/2-r),-(z/2-r)]) sphere(r=r,center=true);
-    translate([-(x/2-r),+(y/2-r),+(z/2-r)]) sphere(r=r,center=true);
-    translate([-(x/2-r),+(y/2-r),-(z/2-r)]) sphere(r=r,center=true);
-    translate([-(x/2-r),-(y/2-r),+(z/2-r)]) sphere(r=r,center=true);
-    translate([-(x/2-r),-(y/2-r),-(z/2-r)]) sphere(r=r,center=true);
+    translate([+(x/2-r),+(y/2-r),+(z/2-r)]) sphere(r=r);
+    translate([+(x/2-r),+(y/2-r),-(z/2-r)]) sphere(r=r);
+    translate([+(x/2-r),-(y/2-r),+(z/2-r)]) sphere(r=r);
+    translate([+(x/2-r),-(y/2-r),-(z/2-r)]) sphere(r=r);
+    translate([-(x/2-r),+(y/2-r),+(z/2-r)]) sphere(r=r);
+    translate([-(x/2-r),+(y/2-r),-(z/2-r)]) sphere(r=r);
+    translate([-(x/2-r),-(y/2-r),+(z/2-r)]) sphere(r=r);
+    translate([-(x/2-r),-(y/2-r),-(z/2-r)]) sphere(r=r);
 }
 
-//round_cuboid3(20,10,15,2);
+translate([0,70,0]) round_cuboid3(20,10,15,2);

@@ -22,8 +22,10 @@ part_extraheight_bottom = 12; // between motor and base
 
 $fn=36;
 
-include <bracket.scad>
-include <misc_parts.scad>
+include <bracket_inc.scad>
+use <bracket.scad>
+include <misc_parts_inc.scad>
+use <misc_parts.scad>
 
 // negative parts that get substracted
 module motor_holes() 
@@ -46,7 +48,7 @@ module motor_holes()
     translate([-sd,-sd,0]) cylinder(r=sr, h=sh, center=true);
 }
 
-//rotate([90,0,0]) motor_holes();
+translate([0,80,motor_front_dimension/2+part_extraheight_top]) rotate([90,0,0]) motor_holes();
 
 
 module motor_end() 

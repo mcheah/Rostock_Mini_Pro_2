@@ -1,5 +1,7 @@
 # RepRap Delta Rostock Mini Pro 2
 
+This project has been modified with the goal of producing .step file outputs compatible with modern CAD software.  See [sources_step](sources_step/README.md) for more details.
+
 This project offers an improved, redesigned and cleaned fork of the original sources.
 
 ### Based on the following projects:

@@ -10,15 +10,13 @@ TODO:
 - 
 */
 
-rod_distance    = 60; // Smooth rod distance (center to center)
-rod_hole_radius = 8.4/2;
-
-
 $fn = 36;
 $fa = 12;
 $fs = 0.5;
 
-include <misc_parts.scad>
+include <bracket_inc.scad>
+include <misc_parts_inc.scad>
+use <misc_parts.scad>
 
 
 //// fin-module
@@ -27,6 +25,7 @@ include <misc_parts.scad>
 // length1: length all together
 // length2: length of the fin-part that gets merged in the adjacent part
 // width:   ....
+use <prism.scad>
 module diagonal_fin2(height1, height2, length1, length2, width) 
 {
     ds = 3; // =y0, distance from the endpoints
@@ -36,7 +35,7 @@ module diagonal_fin2(height1, height2, length1, length2, width)
     surface = [ [0,ds], [height1,ds], [height1,y1], [height2,y2], [height2,y3], [0,y3] ];
     union() 
     {
-        rotate([0,-90,0]) linear_extrude(width,center=true) polygon(points=surface);  
+        rotate([0,-90,0]) prism(surface,width,center=true);
         // mounting screw hole.
         translate([0, length1, height2/2]) difference() 
         {
@@ -45,8 +44,8 @@ module diagonal_fin2(height1, height2, length1, length2, width)
         }
    }
 }
-//diagonal_fin2(40, 6, 50, 40, 5);
 
+translate([0,100,0]) diagonal_fin2(40, 6, 50, 40, 5);
 
 module bracket(height) 
 {
@@ -81,4 +80,4 @@ module bracket(height)
     }
 }
 
-//translate([0, 0, 10]) bracket(20);
+translate([0, 0, 10]) bracket(20);

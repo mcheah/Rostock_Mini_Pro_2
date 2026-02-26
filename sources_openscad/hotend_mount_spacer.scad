@@ -10,7 +10,8 @@ TODO:
 */
 
 $fn=48;
-include<misc_parts.scad>
+include <misc_parts_inc.scad>
+use <misc_parts.scad>
 
 module mount_spacer()
 {

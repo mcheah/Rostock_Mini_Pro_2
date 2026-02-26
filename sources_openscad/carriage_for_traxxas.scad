@@ -77,6 +77,9 @@ module parallel_joints(reinforced)
         rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true); // screw-hole
     }
 }
+parallel_joints(0);
+translate([0,30,0]) parallel_joints(16);
+
 
 module lm8uu_mount(d, h) 
 {
@@ -91,7 +94,9 @@ module lm8uu_mount(d, h)
         cylinder(d=d, h=h+1, center=true);
     }
 }
-
+for (x = [-30, 30])
+    translate([x, 70, 0]) lm8uu_mount(d=15.2, h=heightH);
+    
 module belt_mount() 
 {
     difference() 
@@ -106,6 +111,8 @@ module belt_mount()
     }
 }
 
+translate([belt_mount_offset-2, 80, -carriage_extra_height/2]) belt_mount();
+
 module carriage() 
 {
     hExt = carriage_extra_height;
@@ -116,8 +123,8 @@ module carriage()
     {
         union() 
         {
-            translate([0, -5.6, 0]) cube([50, 5, heightH], center=true);
             translate([0, -carriage_hinge_offset, -heightH/2+4]) parallel_joints(16);
+            translate([0, -5.6, 0]) cube([50, 5, heightH], center=true);
         }
         
         // Pocket for Magnet --> top endstop sensor.
@@ -137,6 +144,7 @@ module carriage()
         }
     }
 }
-carriage();
+
+translate([0,140,0]) carriage();
 
 // look in debug_drive_with_carriage to check endstop alignment

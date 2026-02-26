@@ -19,17 +19,17 @@ module bowden_clamp()
 { 
     difference() 
     {
-        translate([0,0,-0]) linear_extrude(height=12,convexity=30,center=true) difference() 
+        translate([0,0,-0]) 
         {
             // basic shape
             minkowski() 
             {
                 intersection() 
                 {
-                    square([60-2,22-4],center=true);
-                    circle(r=30-2);
+                    cube([60-2,22-4,12/2],center=true);
+                    cylinder(r=30-2,h=12/2);
                 }
-                circle(r=2); // rounded corners
+                cylinder(r=2,h=12/2); // rounded corners
             }
         }
 	

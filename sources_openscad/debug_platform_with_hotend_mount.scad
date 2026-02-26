@@ -13,11 +13,11 @@ module platform_with_hotend_mount()
 {
     translate([0,0,-8]) platform();
     
-    translate([0,+25,15]) mount_spacer();
-    translate([0,-25,15]) mount_spacer();
+    translate([0,+25,20]) mount_spacer();
+    translate([0,-25,20]) mount_spacer();
 
-    translate([0,0,30+6]) rotate([ 0, 0,+90]) bowden_clamp();
-    translate([0,0,30+6]) rotate([ 0, 0,-90]) bowden_clamp();
+    translate([0,0,30+6+5]) rotate([ 0, 0,+90]) bowden_clamp();
+    translate([0,0,30+6+5]) rotate([ 0, 0,-90]) bowden_clamp();
 }
 
 platform_with_hotend_mount();
