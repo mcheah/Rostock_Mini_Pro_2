@@ -18,10 +18,10 @@ platform_thickness    = 8;
 cutout = 12.5;
 inset  = 6;
 
-$fn = 48;
+$fn = 90;
 
 use <carriage_for_traxxas.scad>
-
+use <fan_mount.scad>
 h=platform_thickness;
 
 // nonprintable
@@ -46,9 +46,9 @@ module platform()
         {
             for (a = [0:2]) rotate(a*120)        
             {
-                translate([0, -platform_hinge_offset, 0]) parallel_joints(0);
+                translate([0, -platform_hinge_offset, 0]) parallel_joints_basic(0);
                 // Close little triangle holes.
-                translate([0, 31, 0]) cylinder(r=5, h=h, center=true);
+                #translate([0, 31, 0]) cylinder(r=5, h=h, center=true);
             }
     
             // the big cylinder in the middle  
@@ -62,4 +62,48 @@ module platform()
     }
 }
 
+module platform_fan() 
+{
+    difference() {
+    union() {
+    translate([0, 0, h/2]) difference() 
+    {
+    
+        // the organic triangular shape
+        union() 
+        {
+            for (a = [0:2]) rotate(a*120)        
+            {
+                translate([0, -platform_hinge_offset, 0]) parallel_joints_basic(0);
+                // Close little triangle holes.
+                %translate([0, 31, 0]) cylinder(r=5, h=h, center=true);
+            }
+    
+            // the big cylinder in the middle  
+            cylinder(r=30, h=h, center=true);
+        }
+        
+        cylinder(r=20, h=h+12, center=true);
+        // set of mounting-holes
+        for (a = [0,1,2,4]) 
+            rotate(a*60) translate([0, -25, 0]) cylinder(r=2.2, h=h+1, center=true);
+    }
+    rotate([0,0,-60])
+    translate([0,-25,0])
+    fan_mount2();
+    rotate([0,0,-180])
+    translate([0,-25,0])
+    fan_mount2();    
+    }
+    rotate([0,0,-60])
+    translate([0,-25,0])
+    fan_subtract();
+    rotate([0,0,-180])
+    translate([0,-25,0])
+    fan_subtract();    
+    }
+    
+}
+
 platform();
+translate([0,100,0]) platform_fan();

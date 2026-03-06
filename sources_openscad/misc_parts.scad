@@ -26,6 +26,13 @@ module screw_M4(length)
 }
 translate([0,10,0]) screw_M4(10);
 
+module screw_M5(length) 
+{
+    cylinder(d=M5_screw_hole_dia, h=length);
+	cylinder(d=M5_nut_hole_dia, h=4.0, center=true, $fn=6);
+}
+
+translate([20,10,0]) screw_M5(10);
 
 // Bearing - inner Diameter, outer diameter, width
 module bearing(ID,OD,W) 

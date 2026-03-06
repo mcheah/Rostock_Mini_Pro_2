@@ -10,4 +10,4 @@ rem Python search path for FreeCAD modules
 set PYTHONPATH="%FREECADPATH%\lib;%FREECADPATH%\Mod"
 
 rem Run the exporter script with all passed arguments
-echo %PYTHON% export_scad.py %*
+%PYTHON% export_scad.py %*

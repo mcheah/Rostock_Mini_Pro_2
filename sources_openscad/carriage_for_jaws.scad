@@ -29,6 +29,37 @@ middle = 2*offset - width/2;
 
 $fn=48;
 
+module parallel_joints_jaw(reinforced) {
+  difference() {
+    union() {
+      intersection() {
+        cube([width, 20, 8], center=true);
+        rotate([0, 90, 0]) cylinder(r=5, h=width, center=true);
+      }
+      intersection() {
+        translate([0, 18, 4]) rotate([45, 0, 0])
+          cube([width, reinforced, reinforced], center=true);
+        translate([0, 0, 20]) cube([width, 35, 40], center=true);
+      }
+      translate([0, 8, 0]) cube([width, 16, 8], center=true);
+    }
+    rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true, $fn=12);
+
+    for (x = [-offset, offset]) {
+      translate([x, 5.5, 0])
+        cylinder(r=cutout/2, h=100, center=true, $fn=24);
+      translate([x, -4.5, 0])
+        cube([cutout, 20, 100], center=true);
+      translate([x, 0, 0]) rotate([0, 90, 0]) rotate([0, 0, 30])
+        cylinder(r=3.4, h=18, center=true, $fn=6);
+    }
+    translate([0, 2, 0]) cylinder(r=middle, h=100, center=true);
+    translate([0, -8, 0]) cube([2*middle, 20, 100], center=true);
+  }
+}
+parallel_joints_jaw(0);
+translate([0,30,0]) parallel_joints_jaw(16);
+
 module parallel_joints(reinforced) 
 {
     difference() 
@@ -77,60 +108,6 @@ module parallel_joints(reinforced)
         rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true); // screw-hole
     }
 }
-parallel_joints(0);
-translate([0,30,0]) parallel_joints(16);
-
-module parallel_joints_basic(reinforced) 
-{
-    difference() 
-    {
-        union() 
-        {
-            intersection() 
-            {
-                cube([width, 20, 8], center=true);
-                rotate([0, 90, 0]) cylinder(r=5, h=width-30, center=true);
-            }
-            intersection() 
-            {
-                re = reinforced;
-                translate([0,18,4]) rotate([45,0,0]) cube([width,re,re], center=true);
-                translate([0,0,20]) cube([width-25,35,40], center=true);
-            }
-            translate([0, 8, 0]) cube([width-25, 16, 8], center=true);
-        }
-
-        #rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true);
-
-        for (x = [-offset, offset]) 
-        {
-            translate([x, +5.5, 0]) cylinder(r=cutout/2, h=100, center=true);
-            translate([x, -4.5, 0]) cube([cutout, 50, 100], center=true);
-        }
-        
-        translate([0, 2, 0]) cylinder(r=middle, h=100, center=true);
-        translate([0,-8, 0]) cube([2*middle, 20, 100], center=true);
-
-        rotate([0,90,0]) cylinder(r=3.3, h=29, center=true,$fn=6);
-    }
-  
-    //added features for Traxxas U-joints
-    difference()
-    {
-        union()
-        {
-            translate([+18,-0.1,0]) sphere(5);
-            translate([-18,-0.1,0]) sphere(5);
-        }
-        
-        translate([-25,-5,4]) cube([50,10,3]);
-        translate([-25,-5,-7]) cube([50,10,3]);
-        rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true); // screw-hole
-    }
-}
-
-translate([50,0,0]) parallel_joints_basic(0);
-translate([50,30,0]) parallel_joints_basic(16);
 
 module lm8uu_mount(d, h) 
 {
@@ -147,7 +124,7 @@ module lm8uu_mount(d, h)
 }
 for (x = [-30, 30])
     translate([x, 70, 0]) lm8uu_mount(d=15.2, h=heightH);
-    
+
 module belt_mount() 
 {
     difference() 
@@ -174,7 +151,7 @@ module carriage()
     {
         union() 
         {
-            translate([0, -carriage_hinge_offset, -heightH/2+4]) parallel_joints(16);
+            translate([0, -carriage_hinge_offset, -heightH/2+4]) parallel_joints_jaw(16);            
             translate([0, -5.6, 0]) cube([50, 5, heightH], center=true);
         }
         

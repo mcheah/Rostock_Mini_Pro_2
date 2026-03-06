@@ -47,6 +47,34 @@ module diagonal_fin2(height1, height2, length1, length2, width)
 
 translate([0,100,0]) diagonal_fin2(40, 6, 50, 40, 5);
 
+module diagonal_fin3(height1, height2, length1, length2,length3, width,width2) 
+{
+    ds = 3; // =y0, distance from the endpoints
+    y1 = (length1-length2)/2;
+    y2 = (length1+length2)/2;
+    y3 = length1 - ds;
+    surface = [ [0,ds], [height1,ds], [height1,y1], [height1,30],
+    [height2,y2], [height2,y3], [0,y3] ];
+    wall_surface = [ [0,y3-length3], [height1,30-length3], [
+    height1,30], [height2,y2], [0,y2] ];
+    union() 
+    {
+        rotate([0,-90,0]) linear_extrude(width,center=true) polygon(points=surface);  
+        translate([width2/2+width/2,0,0]) rotate([0,-90,0]) linear_extrude(width2,center=true) polygon(points=wall_surface);
+        // mounting screw hole.
+        translate([0, length1, height2/2]) difference() 
+        {
+            cylinder(r=5, h=height2, center=true);
+            translate([0,0,height2/2-1]) rotate([0,180,0]) screw_M3(10); 
+        }
+   }
+   echo(y1);
+   echo(y2);
+   echo(y3);
+}
+
+translate([50,100,0]) diagonal_fin3(30,7,40,30,3.0,5,20);
+
 module bracket(height) 
 {
     w = rod_distance;

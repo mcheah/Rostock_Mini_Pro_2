@@ -12,16 +12,19 @@ TODO:
 */
 
 idler_end_height = 30;
-
+nn=5;
 // Tilt bearings upward (the timing belt is pulling pretty hard).
 // 2 degree tilt caused belts to slide off the bearings
-tilt = -2; 
 
+tilt = -2; 
+$fa=10;
+$fs=0.1;
 include <bracket_inc.scad> 
 use <bracket.scad>
 include <misc_parts_inc.scad>
 use <misc_parts.scad>
 use <prism.scad>
+use <endstop_template.scad>
 
 module bearing_mount() 
 {
@@ -104,25 +107,33 @@ translate([15,180,idler_end_height/2+2]) rotate([0,180,0]) rotate([0,0,180]) mag
 
 module idler_end() 
 {
-    hi = idler_end_height; // Total height.
-    wr = rod_distance;
-    translate([0, 0, hi/2]) difference() 
-    {
-        union() 
-        {
-            bracket(hi);
-            translate([+wr/2,10,-hi/2]) diagonal_fin2(hi,7, 40,30, 5);
-            translate([-wr/2,10,-hi/2]) diagonal_fin2(hi,7, 40,30, 5);
-            translate([0, 7.5, 0]) bearing_mount();
-            // Endstop placeholder.
-            translate([15,16,hi/2+2]) rotate([0,180,0]) rotate([0,0,180]) mag_zprobe_mount();
+	difference() {
+	    hi = idler_end_height; // Total height.
+	    wr = rod_distance;
+	    translate([0, 0, hi/2]) difference() 
+	    {
+	        union() 
+	        {
+	            translate([0,0,nn/2]) bracket(hi+nn);
+	            translate([+wr/2,10,-hi/2]) diagonal_fin2(hi,7, 40,30, 5);
+	            translate([-wr/2,10,-hi/2]) diagonal_fin2(hi,7, 40,30, 5);
+	            translate([0, 7.5, 0]) bearing_mount();
+	        }
+	 
+	        translate([0, 8, 0]) bearing_mount_hole();
+	    
+	        for (i = [-1, 1]) for (z = [-8,8])
+	            translate([i*(+wr/2-6),-6, z]) rotate([0,i*90,0]) screw_M3(25);
+	    }
+        //subtract holes to mount pcb endstop
+        #translate([-23.5,0,(idler_end_height+nn)])
+        color("green")
+        rotate([270,0,0])
+        mirror([0,0,0]) {
+            #endstop_holes(50);
+            translate([0,0,10.0015-2.1])
+            pin_holes(50);
         }
-        translate([15,16,hi/2+2]) rotate([0,180,0]) rotate([0,0,180]) mag_zprobe_mount_holes();
- 
-        translate([0, 8, 0]) bearing_mount_hole();
-    
-        for (i = [-1, 1]) for (z = [-8,8])
-            translate([i*(+wr/2-6),-6, z]) rotate([0,i*90,0]) screw_M3(25);
     }
 }
 
